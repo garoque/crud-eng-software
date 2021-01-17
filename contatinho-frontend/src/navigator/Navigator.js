@@ -19,7 +19,7 @@ export default function Navigator() {
                         return {
                             headerRight: () => (
                                 <Button 
-                                    onPress={() => navigation.navigate('Formulário de contato')}
+                                    onPress={() => navigation.navigate('Adicionar contato')}
                                     type='clear'
                                     icon={<Icon name="add" size={25} color={Colors.text} />}
                                 />
@@ -27,7 +27,7 @@ export default function Navigator() {
                         }
                     }} />
                 <Stack.Screen name='Detalhes' component={Contato} />
-                <Stack.Screen name='Formulário de contato' component={ContatoForm} />
+                <Stack.Screen name='Adicionar contato' component={ContatoForm} />
             </Stack.Navigator>
         </NavigationContainer>
     )
@@ -35,7 +35,7 @@ export default function Navigator() {
 
 const screenOptions = {
     headerStyle: {
-        backgroundColor: Colors.secondary,
+        backgroundColor: Colors.primary,
     },
     headerTintColor: Colors.text,
     headerTitleStyle: {
