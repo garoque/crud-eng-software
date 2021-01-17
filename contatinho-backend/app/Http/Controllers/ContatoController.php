@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Contato;
 use App\Phone;
 use App\Photo;
@@ -22,7 +23,7 @@ class ContatoController extends Controller {
                     'first_name' => 'required',
                     'last_name' => 'required',
                     'email' => 'required',
-                    'number' => 'required',
+//                    'number' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +43,7 @@ class ContatoController extends Controller {
         $contato->birthday = $request->birthday;
         $contato->email = $request->email;
 
-//        $contato->save();
+        $contato->save();
 
         foreach ($request->number as $number) {
             $contato_number = new Phone();
@@ -63,34 +64,33 @@ class ContatoController extends Controller {
 
     public function update(Request $request, $id) {
         $contato = Contato::with(['phone', 'photo'])->where('id', $id)->firstOrFail();
-        Log::info($contato);
 
-//        $contato->first_name = $request->first_name;
-//        $contato->last_name = $request->last_name;
-//        $contato->birthday = $request->birthday;
-//        $contato->email = $request->email;
-//
-//        $contato->save();
-//
-//        if (isset($request->phone)) {
-//            // deletar os números antes
-//            
-//            foreach ($request->number as $number) {
-//                $contato_number = new Phone();
-//
-//                $contato_number->contato_id = $contato->id;
-//                $contato_number->number = $number;
-//
-//                $contato_number->save();
-//            }
-//        }
-//
-//        if (isset($request->photo)) {
-//            // TO DO
-//        }
+        $contato->first_name = $request->first_name;
+        $contato->last_name = $request->last_name;
+        $contato->birthday = $request->birthday;
+        $contato->email = $request->email;
+
+        $contato->save();
+
+        if (isset($request->phone)) {
+            // deletar os números antes
+            
+            foreach ($request->number as $number) {
+                $contato_number = new Phone();
+
+                $contato_number->contato_id = $contato->id;
+                $contato_number->number = $number;
+
+                $contato_number->save();
+            }
+        }
+
+        if (isset($request->photo)) {
+            // TO DO
+        }
     }
 
-    public function destroy($id) {
+    public function delete($id) {
         $contato = Contato::with(['phone', 'photo'])->where('id', $id)->firstOrFail();
         
         foreach ($contato->phone as $phone) {
@@ -99,5 +99,4 @@ class ContatoController extends Controller {
         
         $contato->delete();
     }
-
 }
