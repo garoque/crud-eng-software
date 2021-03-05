@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Button, Icon } from 'react-native-elements'
 import Home from '../screens/Home'
 import Contato from '../screens/ContatoDetalhes'
-import ContatoForm from '../screens/ContatoForm'
 import Colors from '../../assets/styles/Colors'
 
 const Stack = createStackNavigator()
@@ -19,15 +18,14 @@ export default function Navigator() {
                         return {
                             headerRight: () => (
                                 <Button 
-                                    onPress={() => navigation.navigate('Adicionar contato')}
+                                    onPress={() => navigation.navigate('Contato')}
                                     type='clear'
                                     icon={<Icon name="add" size={25} color={Colors.text} />}
                                 />
                             )
                         }
                     }} />
-                <Stack.Screen name='Detalhes' component={Contato} />
-                <Stack.Screen name='Adicionar contato' component={ContatoForm} />
+                <Stack.Screen name='Contato' component={Contato} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -45,3 +45,11 @@ export const getContatos = () => {
             })
     }
 }
+
+export const editContato = (contato, id) => {
+    return axios.put(`${Constants.url}/contato/${id}`, { contato })
+}
+
+export const addContato = (contato) => {
+    return axios.post(`${Constants.url}/newContato`, { contato })
+}

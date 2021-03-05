@@ -15,7 +15,7 @@ export default function Card({ contato }) {
             <View style={{ paddingLeft: 15, paddingBottom: 15 }}>
                 <Text style={styles.text}>Tel. principal: (42) 99950-7994</Text>
                 <Text style={styles.text}>{contato.email}</Text>
-                <Text style={styles.text}>{formatData(contato.birthday)}</Text>
+                <Text style={styles.text}>{contato.birthday}</Text>
             </View>
         </View>
     )
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.secondary,
         width: Dimensions.get('window').width - 100,
         borderRadius: 20,
-        marginTop: 20
+        marginTop: 20,
+        marginBottom: 10
     },
     contentContainer: {
         alignItems: 'center',
