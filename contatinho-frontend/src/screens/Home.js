@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, ScrollView, SafeAreaView, View, TouchableOpacity } from 'react-native'
 import { getContatos } from '../store/ducks/contato'
 import { connect } from 'react-redux'
@@ -7,7 +7,9 @@ import Colors from '../../assets/styles/Colors'
 
 function Home(props) {
     useEffect(() => {
-        props.getContatos();
+        props.navigation.addListener('focus', () => {
+            props.getContatos();
+        })
     }, [])
 
     return (
@@ -17,7 +19,7 @@ function Home(props) {
                     {props.contatos.length > 0 ?
                         props.contatos.map((el) => {
                             return (
-                                <TouchableOpacity key={el.id} onPress={() => props.navigation.navigate('Detalhes')}>
+                                <TouchableOpacity key={el.id} onPress={() => props.navigation.navigate('Contato', { contato: el })}>
                                     <Card contato={el} />
                                 </TouchableOpacity>
                             )
@@ -33,7 +35,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.background,
-        // paddingTop: 20
     },
     content: {
         alignItems: 'center',

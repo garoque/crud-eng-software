@@ -1,9 +1,7 @@
-export const formatData = input => {
-    const datePart = input.match(/\d+/g)
-    const year = datePart[0]
-    const month = datePart[1]
-    const day = datePart[2]
+export const formatData = value => {
+    value = value.replace(/\D/g, "");
+    value = value.replace(/(\d{2})(\d)/, "$1/$2");
+    value = value.replace(/(\d{2})(\d)/, "$1/$2");
 
-  
-    return day + '/' + month + '/' + year;
-}
+    return value;
+};
