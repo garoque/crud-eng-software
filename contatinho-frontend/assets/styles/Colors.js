@@ -3,4 +3,5 @@ export default {
     secondary: '#14a37f',
     background: '#D3D3D3',
     text: '#FFF',
+    error: '#BA000D'
 }

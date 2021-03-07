@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/getContatos', 'App\Http\Controllers\ContatoController@get');
 Route::post('/newContato', 'App\Http\Controllers\ContatoController@store');
-Route::put('/contato/{id}', 'App\Http\Controllers\ContatoController@update');
+Route::put('/contato', 'App\Http\Controllers\ContatoController@update');
 Route::delete('/deleteContato/{id}', 'App\Http\Controllers\ContatoController@delete');

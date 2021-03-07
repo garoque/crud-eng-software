@@ -8,17 +8,16 @@ use App\Contato;
 use App\Phone;
 use App\Photo;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class ContatoController extends Controller {
 
     public function get() {
-        $contatos = Contato::all();
-        
+        $contatos = Contato::with('telefones')->orderBy('first_name')->get();
+
         foreach ($contatos as $contato) {
             $contato->birthday = Carbon::createFromFormat('Y-m-d', $contato->birthday)->format('d/m/Y');
         }
-        
+
         return response()->json($contatos);
     }
 
@@ -30,7 +29,7 @@ class ContatoController extends Controller {
                     'nome' => 'required',
                     'sobrenome' => 'required',
                     'email' => 'required',
-//                    'number' => 'required',
+                    'telefone1' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -52,55 +51,94 @@ class ContatoController extends Controller {
 
         $contato->save();
 
-//        foreach ($request->number as $number) {
-//            $contato_number = new Phone();
-//
-//            $contato_number->contato_id = $contato->id;
-//            $contato_number->number = $number;
-//
-//            $contato_number->save();
-//        }
-//
+        if ($request->contato['telefone1'] != NULL) {
+            $contato_number = new Phone();
+
+            $contato_number->contato_id = $contato->id;
+            $contato_number->number = $request->contato['telefone1'];
+
+            $contato_number->save();
+        }
+
+        if ($request->contato['telefone2'] != NULL) {
+            $contato_number = new Phone();
+
+            $contato_number->contato_id = $contato->id;
+            $contato_number->number = $request->contato['telefone2'];
+
+            $contato_number->save();
+        }
+
+        if ($request->contato['telefone3'] != NULL) {
+            $contato_number = new Phone();
+
+            $contato_number->contato_id = $contato->id;
+            $contato_number->number = $request->contato['telefone3'];
+
+            $contato_number->save();
+        }
+
 //        if (isset($request->photo)) {
 //            // TO DO
 //        }
     }
 
-    public function update(Request $request, $id) {
-        $contato = Contato::where('id', $id)->firstOrFail();
-        
+    public function update(Request $request) {
+        $contato = Contato::where('id', $request->contato['id'])->with('telefones')->firstOrFail();
+
         $contato->first_name = $request->contato['nome'];
         $contato->last_name = $request->contato['sobrenome'];
         $contato->birthday = Carbon::createFromFormat('d/m/Y', $request->contato['dataAniversario'])->format('Y-m-d');
         $contato->email = $request->contato['email'];
 
         $contato->save();
+        
+        foreach ($contato->telefones as $telefone) {
+            $telefone->delete();
+        }
 
-//        if (isset($request->phone)) {
-//            // deletar os números antes
-//            
-//            foreach ($request->number as $number) {
-//                $contato_number = new Phone();
-//
-//                $contato_number->contato_id = $contato->id;
-//                $contato_number->number = $number;
-//
-//                $contato_number->save();
-//            }
-//        }
-//
+        if (isset($request->contato['telefone1'])) {
+            if ($request->contato['telefone1'] != NULL) {
+                $contato_number = new Phone();
+
+                $contato_number->contato_id = $contato->id;
+                $contato_number->number = $request->contato['telefone1'];
+
+                $contato_number->save();
+            }
+
+            if ($request->contato['telefone2'] != NULL) {
+                $contato_number = new Phone();
+
+                $contato_number->contato_id = $contato->id;
+                $contato_number->number = $request->contato['telefone2'];
+
+                $contato_number->save();
+            }
+
+            if ($request->contato['telefone3'] != NULL) {
+                $contato_number = new Phone();
+
+                $contato_number->contato_id = $contato->id;
+                $contato_number->number = $request->contato['telefone3'];
+
+                $contato_number->save();
+            }
+        }
+
 //        if (isset($request->photo)) {
 //            // TO DO
 //        }
     }
 
     public function delete($id) {
-        $contato = Contato::with(['phone', 'photo'])->where('id', $id)->firstOrFail();
-        
-        foreach ($contato->phone as $phone) {
-            $phone->delete();
+        $contato = Contato::where('id', $id)->with('telefones')->firstOrFail();
+
+        foreach ($contato->telefones as $telefone) {
+            $telefone->delete();
         }
-        
+
         $contato->delete();
     }
+
 }
