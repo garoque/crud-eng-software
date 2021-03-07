@@ -46,10 +46,14 @@ export const getContatos = () => {
     }
 }
 
-export const editContato = (contato, id) => {
-    return axios.put(`${Constants.url}/contato/${id}`, { contato })
+export const editContato = (contato) => {
+    return axios.put(`${Constants.url}/contato`, { contato })
 }
 
 export const addContato = (contato) => {
     return axios.post(`${Constants.url}/newContato`, { contato })
+}
+
+export const deleteContato = (id) => {
+    return axios.delete(`${Constants.url}/deleteContato/${id}`)
 }

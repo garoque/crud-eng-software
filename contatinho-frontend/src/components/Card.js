@@ -4,6 +4,7 @@ import { formatData } from '../utils/Utils'
 import Colors from '../../assets/styles/Colors'
 
 export default function Card({ contato }) {
+    console.log(contato.telefones)
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
@@ -13,9 +14,17 @@ export default function Card({ contato }) {
             </View>
 
             <View style={{ paddingLeft: 15, paddingBottom: 15 }}>
-                <Text style={styles.text}>Tel. principal: (42) 99950-7994</Text>
                 <Text style={styles.text}>{contato.email}</Text>
                 <Text style={styles.text}>{contato.birthday}</Text>
+                <Text style={styles.text}>Telefones:</Text>
+                
+                {
+                    contato.telefones.map((elemento) => {
+                        return (
+                            <Text key={elemento.id} style={styles.text}>{elemento.number}</Text>
+                        )
+                    })
+                }
             </View>
         </View>
     )
