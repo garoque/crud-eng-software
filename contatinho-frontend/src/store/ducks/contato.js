@@ -46,6 +46,17 @@ export const getContatos = () => {
     }
 }
 
+export const getContato = (text) => {
+    return (dispatch) => {
+        axios.get(`${Constants.url}/getContato/${text}`)
+            .catch(err => {
+                Alert.alert('Erro', `${err}`)
+            }).then(res => {
+                dispatch(setContatos(res.data))
+            })
+    }
+}
+
 export const editContato = (contato) => {
     return axios.put(`${Constants.url}/contato`, { contato })
 }

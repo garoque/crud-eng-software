@@ -1,21 +1,36 @@
-import React, { useCallback, useEffect } from 'react'
-import { StyleSheet, ScrollView, SafeAreaView, View, TouchableOpacity } from 'react-native'
-import { getContatos } from '../store/ducks/contato'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, ScrollView, SafeAreaView, View, TouchableOpacity, TextInput } from 'react-native'
+import { getContatos, getContato } from '../store/ducks/contato'
 import { connect } from 'react-redux'
 import Card from '../components/Card'
 import Colors from '../../assets/styles/Colors'
 
 function Home(props) {
+    const [text, useText] = useState('')
     useEffect(() => {
         props.navigation.addListener('focus', () => {
             props.getContatos();
         })
     }, [])
 
+    useEffect(() => {
+        if (text != '') {
+            props.getContato(text);
+        } else {
+            props.getContatos();
+        }
+    }, [text])
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.content}>
+                    <TextInput
+                        placeholder='Pesquisar um contato...'
+                        style={styles.input}
+                        onChangeText={useText}
+                        value={text}
+                    />
                     {props.contatos.length > 0 ?
                         props.contatos.map((el) => {
                             return (
@@ -38,6 +53,12 @@ const styles = StyleSheet.create({
     },
     content: {
         alignItems: 'center',
+    },
+    input: {
+        backgroundColor: '#FFF',
+        width: '100%',
+        paddingTop: 12,
+        paddingHorizontal: 15
     }
 })
 
@@ -49,7 +70,8 @@ const mapStateToProps = ({ contato }) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getContatos: () => dispatch(getContatos())
+        getContatos: () => dispatch(getContatos()),
+        getContato: (text) => dispatch(getContato(text))
     }
 }
 
