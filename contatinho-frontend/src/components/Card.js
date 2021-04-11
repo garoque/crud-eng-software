@@ -4,7 +4,6 @@ import { formatData } from '../utils/Utils'
 import Colors from '../../assets/styles/Colors'
 
 export default function Card({ contato }) {
-    console.log(contato.telefones)
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>

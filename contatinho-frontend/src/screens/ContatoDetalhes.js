@@ -104,6 +104,19 @@ export default function ContatoDetalhes(props) {
         })
     }
 
+    const removeTelefone = () => {
+        setCount(count - 1)
+        if (contato.telefone3 != '') {
+            setContato({
+                ...contato, telefone3: ''
+            })
+        } else if (contato.telefone2 != '' && count == 2) {
+            setContato({
+                ...contato, telefone2: ''
+            })
+        }
+    }
+
     return (
         <ScrollView style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -140,10 +153,17 @@ export default function ContatoDetalhes(props) {
                             : null
                     }
 
-                    <View style={{...styles.containerAddInputTelefone, display: count >= 3 ? 'none' : 'flex'}}>
-                        <TouchableOpacity onPress={() => count <= 3 ? setCount(count + 1) : null} style={styles.addInputTelefone}>
-                            <Text style={styles.btnText}>Adicionar outro telefone</Text>
-                        </TouchableOpacity>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{ ...styles.containerAddInputTelefone, display: count >= 3 ? 'none' : 'flex' }}>
+                            <TouchableOpacity onPress={() => count <= 3 ? setCount(count + 1) : null} style={styles.addInputTelefone}>
+                                <Text style={styles.btnText}>Adicionar outro telefone</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ ...styles.containerAddInputTelefone, display: count == 1 ? 'none' : 'flex' }}>
+                            <TouchableOpacity onPress={() => removeTelefone()} style={{ ...styles.addInputTelefone, backgroundColor: '#FF0000' }}>
+                                <Text style={styles.btnText}>Remover telefone</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     <Fumi label={'Email'} iconClass={Icon} iconName={'at'} iconColor={Colors.secondary} value={contato.email}

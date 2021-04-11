@@ -20,6 +20,12 @@ class ContatoController extends Controller {
 
         return response()->json($contatos);
     }
+    
+    public function getUsuario($usuario) {
+        $contato = Contato::with('telefones')->where('first_name', 'LIKE', "%$usuario%")->get();
+        
+        return response()->json($contato);
+    }
 
     public function store(Request $request) {
         $errors = array();
