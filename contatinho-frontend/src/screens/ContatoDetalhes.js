@@ -58,6 +58,22 @@ export default function ContatoDetalhes(props) {
     }
 
     const saveChanges = () => {
+        
+        if (contato.nome.trim() == '' ||
+        contato.dataAniversario == '' ||
+        contato.email.trim() == '' ||
+        contato.sobrenome.trim() == '' ||
+        contato.telefone1 == '') {
+            return Alert.alert('Atenção', 'É necessário preencher todos os campos.')
+        }
+
+        const [dia, mes, ano] = contato.dataAniversario.split('/')
+        if (dia > 31 || mes > 12 || ano > 2020) {
+            return Alert.alert('Atenção', 'Data de aniversário inválida.')
+        }
+
+        if (!contato.email.includes('@')) return Alert.alert('Atenção', 'É necessário informar um endereço de e-mail válido.')
+
         if (contato.id == null) {
             addContato(contato).catch(err => {
                 Alert.alert('Atenção', 'Ocorreu um erro, tente novamente mais tarde.')
@@ -153,7 +169,7 @@ export default function ContatoDetalhes(props) {
                             : null
                     }
 
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                         <View style={{ ...styles.containerAddInputTelefone, display: count >= 3 ? 'none' : 'flex' }}>
                             <TouchableOpacity onPress={() => count <= 3 ? setCount(count + 1) : null} style={styles.addInputTelefone}>
                                 <Text style={styles.btnText}>Adicionar outro telefone</Text>
